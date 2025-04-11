@@ -1,4 +1,3 @@
-// src/App.jsx
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
@@ -11,6 +10,12 @@ import Editor from "./pages/Editor";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import html2pdf from "html2pdf.js";
+
+// Optional: Create and import these if you want custom styling
+// import Certifications from "./components/Certifications";
+// import Achievements from "./components/Achievements";
+// import Hobbies from "./components/Hobbies";
+// import Languages from "./components/Languages";
 
 function App() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
@@ -27,6 +32,10 @@ function App() {
     about: "",
     skills: [],
     projects: [],
+    certifications: [],
+    achievements: [],
+    hobbies: [],
+    languages: [],
     email: "",
     phone: "",
     linkedin: "",
@@ -35,7 +44,6 @@ function App() {
     website: "",
   });
 
-  // 🌐 Detect preview mode from URL
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const preview = queryParams.get("preview");
@@ -52,7 +60,6 @@ function App() {
     }
   }, []);
 
-  // 🌙 Theme handling
   useEffect(() => {
     const theme = localStorage.getItem("theme");
     if (theme === "dark") {
@@ -71,7 +78,6 @@ function App() {
     }
   }, [darkMode]);
 
-  // 💾 Save data to localStorage for reuse
   useEffect(() => {
     localStorage.setItem("portfolioData", JSON.stringify(data));
   }, [data]);
@@ -81,15 +87,13 @@ function App() {
       alert("Please enter your name and other details before exporting.");
       return;
     }
-  
+
     setIsPDFExporting(true);
-  
-    // Add clean export class to root
     document.body.classList.add("pdf-mode");
-  
+
     setTimeout(() => {
       const element = previewRef.current;
-  
+
       const opt = {
         margin: 0.5,
         filename: `${data.name.replace(/\s+/g, "_")}_portfolio.pdf`,
@@ -97,23 +101,23 @@ function App() {
         html2canvas: { scale: 2, useCORS: true },
         jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
       };
-  
+
       html2pdf()
         .set(opt)
         .from(element)
         .save()
         .then(() => {
           setIsPDFExporting(false);
-          document.body.classList.remove("pdf-mode"); // Clean up
+          document.body.classList.remove("pdf-mode");
         })
         .catch((err) => {
           console.error("PDF export error:", err);
           setIsPDFExporting(false);
           document.body.classList.remove("pdf-mode");
         });
-    }, 600); // Allow layout + styles to settle
+    }, 600);
   };
-  
+
   const handleCopyLink = () => {
     try {
       localStorage.setItem("sharedPortfolio", JSON.stringify(data));
@@ -177,17 +181,60 @@ function App() {
           className={`p-6 rounded-3xl shadow-2xl border ${
             isPDFExporting
               ? "bg-white text-black border-gray-300"
-              : "backdrop-blur-xl bg-white/30 dark:bg-white/10 text-black dark:text-white border-white/30"
+              : "backdrop-blur-xl bg-white/30 dark:bg-white/10 text-black dark:text-dark border-white/30"
           }`}
           ref={previewRef}
         >
-          <Hero
-            name={data.name || "Your Name"}
-            tagline={data.tagline || "Your Tagline or Career Goal"}
-          />
+          <Hero name={data.name} tagline={data.tagline} />
           <About about={data.about} />
           <Skills skills={data.skills} />
           <Projects projects={data.projects} />
+
+          {/* New Sections: Render only if content exists */}
+          {data.certifications?.length > 0 && (
+            <section className="mt-4">
+              <h3 className="text-xl font-bold mb-2">🎓 Certifications</h3>
+              <ul className="list-disc list-inside space-y-1">
+                {data.certifications.map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {data.achievements?.length > 0 && (
+            <section className="mt-4">
+              <h3 className="text-xl font-bold mb-2">🏆 Achievements</h3>
+              <ul className="list-disc list-inside space-y-1">
+                {data.achievements.map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {data.hobbies?.length > 0 && (
+            <section className="mt-4">
+              <h3 className="text-xl font-bold mb-2">🎨 Hobbies</h3>
+              <ul className="list-disc list-inside space-y-1">
+                {data.hobbies.map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {data.languages?.length > 0 && (
+            <section className="mt-4">
+              <h3 className="text-xl font-bold mb-2">🌍 Languages</h3>
+              <ul className="list-disc list-inside space-y-1">
+                {data.languages.map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+
           <Contact
             email={data.email}
             phone={data.phone}

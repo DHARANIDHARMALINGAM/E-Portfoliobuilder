@@ -7,6 +7,10 @@ const Editor = ({ onChange }) => {
     about: "",
     skills: "",
     projects: "",
+    certifications: "",
+    achievements: "",
+    hobbies: "",
+    languages: "",
     email: "",
     phone: "",
     location: "",
@@ -25,12 +29,14 @@ const Editor = ({ onChange }) => {
       tagline: updatedForm.tagline,
       about: updatedForm.about,
       skills: updatedForm.skills.split(",").map((s) => s.trim()),
-      projects: updatedForm.projects
-        .split(";")
-        .map((p) => {
-          const [title, description] = p.split(":").map((s) => s.trim());
-          return { title, description };
-        }),
+      projects: updatedForm.projects.split(";").map((p) => {
+        const [title, description] = p.split(":").map((s) => s.trim());
+        return { title, description };
+      }),
+      certifications: updatedForm.certifications.split(",").map((c) => c.trim()),
+      achievements: updatedForm.achievements.split(",").map((a) => a.trim()),
+      hobbies: updatedForm.hobbies.split(",").map((h) => h.trim()),
+      languages: updatedForm.languages.split(",").map((l) => l.trim()),
       email: updatedForm.email,
       phone: updatedForm.phone,
       location: updatedForm.location,
@@ -46,6 +52,10 @@ const Editor = ({ onChange }) => {
     "about",
     "skills",
     "projects",
+    "certifications",
+    "achievements",
+    "hobbies",
+    "languages",
     "email",
     "phone",
     "location",
@@ -69,13 +79,19 @@ const Editor = ({ onChange }) => {
             name={field}
             value={formData[field]}
             onChange={handleChange}
-            rows={field === "about" || field === "projects" ? 3 : 1}
-            className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700 text-gray-800 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
+            rows={
+              ["about", "projects", "certifications", "achievements", "hobbies", "languages"].includes(field)
+                ? 3
+                : 1
+            }
+            className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700 text-gray-800 dark:text-black placeholder:text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
             placeholder={
               field === "skills"
                 ? "e.g. HTML, CSS, JavaScript"
                 : field === "projects"
-                ? "Project1: Description1; Project2: Description2"
+                ? "e.g. Project1: Description1; Project2: Description2"
+                : ["certifications", "achievements", "hobbies", "languages"].includes(field)
+                ? `Enter ${field} separated by commas`
                 : `Enter your ${field}`
             }
           />
