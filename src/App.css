@@ -1,0 +1,28 @@
+/* Logo animation - optional */
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Use only if spinning logos are needed */
+.logo-spin {
+  animation: logo-spin infinite 20s linear;
+}
+
+/* Custom Card Class */
+.card {
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Optional muted text */
+.muted-text {
+  color: #888;
+}
