@@ -72,7 +72,7 @@ const Editor = ({ onChange }) => {
 
       {fields.map((field) => (
         <div key={field}>
-          <label className="block mb-1 text-sm font-semibold capitalize text-gray-700 dark:text-black tracking-wide">
+          <label className="block mb-1 text-sm font-semibold capitalize text-gray-600 dark:text-black tracking-wide">
             {field}
           </label>
           <textarea
@@ -84,7 +84,7 @@ const Editor = ({ onChange }) => {
                 ? 3
                 : 1
             }
-            className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700 text-gray-800 dark:text-black placeholder:text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
+            className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white/50 dark:bg-gray-700 text-gray-600 dark:text-black placeholder:text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
             placeholder={
               field === "skills"
                 ? "e.g. HTML, CSS, JavaScript"
